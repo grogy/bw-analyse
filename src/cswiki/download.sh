@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-rm -rf /tmp/wikimedia-download
-mkdir /tmp/wikipedia-download
+TEMP_DIR="/tmp/wikimedia-download/"
+DUMPS_URL="https://dumps.wikimedia.org/cswiki/latest/"
 
-wget https://dumps.wikimedia.org/cswiki/latest/cswiki-latest-all-titles.gz -O /tmp/wikipedia-download/cswiki-latest-all-titles.gz
-gzip -d /tmp/wikipedia-download/cswiki-latest-all-titles.gz
+rm -rf $TEMP_DIR
+mkdir $TEMP_DIR
+
+FILE="cswiki-latest-all-titles.gz"
+wget ${DUMPS_URL}${FILE} -O ${TEMP_DIR}${FILE}
+gzip -d ${TEMP_DIR}${FILE}
