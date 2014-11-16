@@ -7,4 +7,5 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :shell, path: "provisioning/upgrade.sh"
   config.vm.provision :shell, path: "provisioning/mysql.sh"
+  config.vm.provision :shell, path: "provisioning/mysql-database.sh"
 end
