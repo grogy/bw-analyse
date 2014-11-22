@@ -1,1 +1,5 @@
-.vagrant/
+/composer.lock
+
+/.vagrant/
+/vendor/
+/tests/output/
