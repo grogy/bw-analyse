@@ -1,21 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/library.php';
 
-$xmlfile = "/vagrant/download-data/cswiki-latest-pages-articles.xml";
+$pathToXml = "/vagrant/download-data/cswiki-latest-pages-articles.xml";
+$database = new Nette\Database\Connection('mysql:host=127.0.0.1', 'root', 'pass');
 
-$doc = new DOMDocument;
-$reader = new XMLReader();
-$reader->open($xmlfile);
-
-// jump to page elements
-while ($reader->read() && $reader->name !== 'page');
-
-while ($reader->name === 'page') {
-    $page = simplexml_import_dom($doc->importNode($reader->expand(), true));
-    $reader->next('page');
-
-    echo 'Title: ' . $page->title . "\n";
-    echo 'Kategory: ' . join(', ', getCategories($page->revision->text)) . "\n";
-    echo 'Portal: ' . join(', ', getPortals($page->revision->text)) . "\n\n";
-}
+importToDatabase($database, $pathToXml);
