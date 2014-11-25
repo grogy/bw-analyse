@@ -6,19 +6,19 @@ USE wikipedia;
 CREATE TABLE articles (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255)
-) TYPE=innodb;
+) ENGINE=InnoDB;
 
 
 CREATE TABLE categories (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255)
-) TYPE=innodb;
+) ENGINE=InnoDB;
 
 
 CREATE TABLE portals (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255)
-) TYPE=innodb;
+) ENGINE=InnoDB;
 
 
 CREATE TABLE article_portals (
@@ -26,7 +26,7 @@ CREATE TABLE article_portals (
 	portal_id INT NOT NULL,
 	FOREIGN KEY (article_id) REFERENCES articles(id),
 	FOREIGN KEY (portal_id) REFERENCES portals(id)
-) TYPE=innodb;
+) ENGINE=InnoDB;
 
 
 CREATE TABLE article_categories (
@@ -34,4 +34,4 @@ CREATE TABLE article_categories (
 	category_id INT NOT NULL,
 	FOREIGN KEY (article_id) REFERENCES articles(id),
 	FOREIGN KEY (category_id) REFERENCES categories(id)
-) TYPE=innodb;
+) ENGINE=InnoDB;
