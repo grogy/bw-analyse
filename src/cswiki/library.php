@@ -43,7 +43,10 @@ function getPortals($text)
  */
 function saveArticle(\Nette\Database\Connection $database, $title, array $categories, array $portals)
 {
-	// @todo implement
+	$query = 'INSERT INTO articles (name) VALUES (?)';
+	$database->query($query, $title);
+	// @todo implement categories
+	// @todo implement portals
 	return 1;
 }
 
@@ -64,7 +67,7 @@ function importToDatabase(\Nette\Database\Connection $database, $pathToXml)
 	while ($reader->name === 'page') {
 		$page = simplexml_import_dom($doc->importNode($reader->expand(), true));
 		$reader->next('page');
-		$title = $page->title;
+		$title = (string) $page->title;
 		$categories = getCategories($page->revision->text);
 		$portals = getPortals($page->revision->text);
 		saveArticle($database, $title, $categories, $portals);
