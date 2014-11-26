@@ -39,15 +39,26 @@ function getPortals($text)
  * @param string $title title of article
  * @param array $categories categories of article
  * @param array $portals portals of article
- * @return int identifier of article from database
  */
 function saveArticle(\Nette\Database\Connection $database, $title, array $categories, array $portals)
 {
 	$query = 'INSERT INTO articles (name) VALUES (?)';
 	$database->query($query, $title);
-	// @todo implement categories
-	// @todo implement portals
-	return 1;
+	$articleId = $database->getInsertId();
+	foreach ($categories as $category) {
+		$query = 'INSERT INTO categories (name) VALUES (?)';
+		$database->query($query, $category);
+		$categoryId = $database->getInsertId();
+		$query = 'INSERT INTO article_categories (article_id, category_id) VALUES (?, ?)';
+		$database->query($query, $articleId, $categoryId);
+	}
+	foreach ($portals as $portal) {
+		$query = 'INSERT INTO portals (name) VALUES (?)';
+		$database->query($query, $portal);
+		$portalId = $database->getInsertId();
+		$query = 'INSERT INTO article_portals (article_id, portal_id) VALUES (?, ?)';
+		$database->query($query, $articleId, $portalId);
+	}
 }
 
 
