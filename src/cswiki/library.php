@@ -64,6 +64,31 @@ function saveArticle(\Nette\Database\Connection $database, $title, array $catego
 
 
 /**
+ * Clean records from database
+ * @todo missing test
+ * @param \Nette\Database\Connection $database connect to database
+ */
+function cleanDatabase(\Nette\Database\Connection $database)
+{
+	$query = 'SET FOREIGN_KEY_CHECKS = 0';
+	$database->query($query);
+	$query = 'TRUNCATE TABLE article_portals';
+	$database->query($query);
+	$query = 'TRUNCATE TABLE article_categories';
+	$database->query($query);
+	$query = 'TRUNCATE TABLE portals';
+	$database->query($query);
+	$query = 'TRUNCATE TABLE categories';
+	$database->query($query);
+	$query = 'TRUNCATE TABLE articles';
+	$database->query($query);
+	$query = 'SET FOREIGN_KEY_CHECKS = 0';
+	$database->query($query);
+}
+
+
+
+/**
  * Import data with articles to database
  * @todo missing test
  * @param \Nette\Database\Connection $database connect to database
@@ -75,6 +100,7 @@ function importToDatabase(\Nette\Database\Connection $database, $pathToXml)
 	$reader = new XMLReader();
 	$reader->open($pathToXml);
 	while ($reader->read() && $reader->name !== 'page'); // jump to page elements
+	cleanDatabase($database);
 	while ($reader->name === 'page') {
 		$page = simplexml_import_dom($doc->importNode($reader->expand(), true));
 		$reader->next('page');
