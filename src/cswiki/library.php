@@ -82,7 +82,7 @@ function cleanDatabase(\Nette\Database\Connection $database)
 	$database->query($query);
 	$query = 'TRUNCATE TABLE articles';
 	$database->query($query);
-	$query = 'SET FOREIGN_KEY_CHECKS = 0';
+	$query = 'SET FOREIGN_KEY_CHECKS = 1';
 	$database->query($query);
 }
 
