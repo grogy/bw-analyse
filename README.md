@@ -9,3 +9,5 @@
   - install dependencies
 - `make test-unit`
   - run tests
+- `make reload-database`
+  - reload state of database

@@ -1,5 +1,7 @@
-CREATE DATABASE IF NOT EXISTS wikipedia
+DROP DATABASE IF EXISTS wikipedia;
+CREATE DATABASE wikipedia
 CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 
 USE wikipedia;
 
