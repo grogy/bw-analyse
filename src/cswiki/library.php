@@ -46,19 +46,57 @@ function saveArticle(\Nette\Database\Connection $database, $title, array $catego
 	$database->query($query, $title);
 	$articleId = $database->getInsertId();
 	foreach ($categories as $category) {
-		$query = 'INSERT INTO categories (name) VALUES (?)';
-		$database->query($query, $category);
-		$categoryId = $database->getInsertId();
+		$categoryId = getCategoryId($database, $category);
 		$query = 'INSERT INTO article_categories (article_id, category_id) VALUES (?, ?)';
 		$database->query($query, $articleId, $categoryId);
 	}
 	foreach ($portals as $portal) {
-		$query = 'INSERT INTO portals (name) VALUES (?)';
-		$database->query($query, $portal);
-		$portalId = $database->getInsertId();
+		$portalId = getPortalId($database, $portal);
 		$query = 'INSERT INTO article_portals (article_id, portal_id) VALUES (?, ?)';
 		$database->query($query, $articleId, $portalId);
 	}
+}
+
+
+
+/**
+ * Get category ID
+ * If isn't category save in database then save and return ID.
+ * @todo missing test
+ * @param \Nette\Database\Connection $database connect to database
+ * @param string $categoryName name of category
+ */
+function getCategoryId($database, $categoryName)
+{
+	$query = 'SELECT id FROM categories WHERE name = ?';
+	$categoryId = $database->query($query, $categoryName)->fetchField('id');
+	if (empty($categoryId)) {
+		$query = 'INSERT INTO categories (name) VALUES (?)';
+		$database->query($query, $categoryName);
+		$categoryId = $database->getInsertId();
+	}
+	return $categoryId;
+}
+
+
+
+/**
+ * Get portal ID
+ * If isn't portal save in database then save and return ID.
+ * @todo missing test
+ * @param \Nette\Database\Connection $database connect to database
+ * @param string $portalName name of portal
+ */
+function getPortalId($database, $portalName)
+{
+	$query = 'SELECT id FROM portals WHERE name = ?';
+	$portalId = $database->query($query, $portalName)->fetchField('id');
+	if (empty($portalId)) {
+		$query = 'INSERT INTO portals (name) VALUES (?)';
+		$database->query($query, $portalName);
+		$portalId = $database->getInsertId();
+	}
+	return $portalId;
 }
 
 
