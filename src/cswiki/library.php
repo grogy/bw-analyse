@@ -7,11 +7,15 @@
  */
 function getCategories($text)
 {
+    $categories = [];
     preg_match_all('/\[\[Kategorie:(.+)\]\]/', $text, $matches);
     foreach ($matches[1] as &$match) {
-        $match = trim($match);
+        $matchs = explode('|', $match);
+        foreach ($matchs as $match) {
+            $categories[] = trim($match);
+        }
     }
-    return $matches[1];
+    return $categories;
 }
 
 
@@ -23,11 +27,15 @@ function getCategories($text)
  */
 function getPortals($text)
 {
+    $portals = [];
     preg_match_all('/{{Portály\|(.+)}}/', $text, $matches);
     foreach ($matches[1] as &$match) {
-        $match = trim($match);
+        $matchs = explode('|', $match);
+        foreach ($matchs as $match) {
+            $portals[] = trim($match);
+        }
     }
-    return $matches[1];
+    return $portals;
 }
 
 

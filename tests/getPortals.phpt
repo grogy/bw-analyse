@@ -26,3 +26,15 @@ $expected = [
     'Music',
 ];
 Assert::same($expected, getPortals($text));
+
+
+$text = <<<'EOT'
+Text of article.
+{{Portály|Film|Music|Math}}
+EOT;
+$expected = [
+    'Film',
+    'Music',
+    'Math',
+];
+Assert::same($expected, getPortals($text));
