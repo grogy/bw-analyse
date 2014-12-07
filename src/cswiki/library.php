@@ -8,8 +8,8 @@
 function getCategories($text)
 {
     $categories = [];
-    preg_match_all('/\[\[Kategorie:(.+)\]\]/', $text, $matches);
-    foreach ($matches[1] as &$match) {
+    preg_match_all('/\[\[(Kategorie|Category):(.+)\]\]/', $text, $matches);
+    foreach ($matches[2] as &$match) {
         $matchs = explode('|', $match);
         foreach ($matchs as $match) {
             $categories[] = trim($match);

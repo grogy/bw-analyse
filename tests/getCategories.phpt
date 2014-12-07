@@ -41,3 +41,16 @@ $expected = [
     'Third category',
 ];
 Assert::same($expected, getCategories($text));
+
+
+$text = <<<'EOT'
+Text of article.
+[[Category:First category]]
+[[Category:Second category|Third category]]
+EOT;
+$expected = [
+    'First category',
+    'Second category',
+    'Third category',
+];
+Assert::same($expected, getCategories($text));
