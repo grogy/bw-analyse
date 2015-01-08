@@ -1,0 +1,14 @@
+nette:
+    database:
+        default:
+            dsn: "mysql:host=127.0.0.1;dbname=wikipedia"
+            user: root
+            password: pass
+
+services:
+    database: @nette.database.default
+
+parameters:
+    languages:
+        - cs
+        - en

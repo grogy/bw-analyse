@@ -2,4 +2,5 @@
 
 /.vagrant/
 /vendor/
+/temp/
 /tests/output/
