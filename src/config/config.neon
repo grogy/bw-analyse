@@ -7,8 +7,11 @@ nette:
 
 services:
     database: @nette.database.default
+    listOfLinks: ListOfLinks(@database, %storageUrl%)
+    databaseImport: DatabaseImport(@database)
 
 parameters:
+    storageUrl: http://dumps.wikimedia.org/backup-index.html
     languages:
-        - cs
-        - en
+        - cswiki
+        - enwiki
