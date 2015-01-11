@@ -49,7 +49,6 @@ class ListOfLinks
         });
         $data = [];
         foreach ($parseData as $item) {
-            print_r($item);
             if (empty($item['title'])) {
                 continue;
             }
@@ -58,6 +57,28 @@ class ListOfLinks
                 'time' => $item['time'],
                 'done' => $item['done'],
             ];
+        }
+        return $data;
+    }
+
+
+    /**
+     * @param $language string Language, for example 'enwiki'
+     * @return array
+     */
+    public function getFiles($language)
+    {
+        $allTypes = $this->getLanguagePages();
+        $html = file_get_contents($this->baseUrl . $allTypes[$language]['url']);
+        $m = Matcher::multi('//li[@class="done"]', [
+            'file' => 'ul/li/a',
+            'url' => 'ul/li/a/@href',
+            'title' => 'span[@class="title"]',
+        ])->fromHtml();
+        $parseData = $m($html);
+        $data = [];
+        foreach ($parseData as $item) {
+            $data[$item['title']] = $item['url'];
         }
         return $data;
     }

@@ -8,8 +8,12 @@ Tester\Environment::setup();
 $databaseMock = \Mockery::mock('Nette\Database\Connection')->makePartial();
 $listOfLinks = new ListOfLinks($databaseMock,  __DIR__ . '/input/');
 
-
+// check all languages types
 Assert::same('cswiki/20150105', $listOfLinks->getLanguagePages()['cswiki']['url']);
 Assert::type('DateTime', $listOfLinks->getLanguagePages()['cswiki']['time']);
 Assert::true($listOfLinks->getLanguagePages()['cswiki']['done']);
 Assert::false($listOfLinks->getLanguagePages()['dewiki']['done']);
+
+// check files of concrete languages versions
+$currentPage = $listOfLinks->getFiles('cswiki')['All pages, current versions only.'];
+Assert::same('/cswiki/20150105/cswiki-20150105-pages-meta-current.xml.bz2', $currentPage);
