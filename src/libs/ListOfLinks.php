@@ -12,6 +12,8 @@ class ListOfLinks
 
     private $baseUrl;
 
+    const STORAGE_INDEX = 'backup-index.html';
+
 
     public function __construct(Connection $database, $baseUrl)
     {
@@ -28,7 +30,7 @@ class ListOfLinks
 
     public function getLanguagePages()
     {
-        $html = file_get_contents($this->baseUrl);
+        $html = file_get_contents($this->baseUrl . self::STORAGE_INDEX);
         $m = Matcher::multi('//li[not(@class)]', [
             'text' => '.',
             'title' => 'a',

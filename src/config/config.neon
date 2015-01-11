@@ -11,7 +11,7 @@ services:
     databaseImport: DatabaseImport(@database)
 
 parameters:
-    storageUrl: http://dumps.wikimedia.org/backup-index.html
+    storageUrl: http://dumps.wikimedia.org/
     languages:
         - cswiki
         - enwiki

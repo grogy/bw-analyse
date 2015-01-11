@@ -6,7 +6,7 @@ require __DIR__ . '/../src/libs/ListOfLinks.php';
 Tester\Environment::setup();
 
 $databaseMock = \Mockery::mock('Nette\Database\Connection')->makePartial();
-$listOfLinks = new ListOfLinks($databaseMock,  __DIR__ . '/input/list-of-languages.html');
+$listOfLinks = new ListOfLinks($databaseMock,  __DIR__ . '/input/');
 
 
 Assert::same('cswiki/20150105', $listOfLinks->getLanguagePages()['cswiki']['url']);
