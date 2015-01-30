@@ -71,14 +71,19 @@ class ListOfLinks
         $allTypes = $this->getLanguagePages();
         $html = file_get_contents($this->baseUrl . $allTypes[$language]['url']);
         $m = Matcher::multi('//li[@class="done"]', [
-            'file' => 'ul/li/a',
-            'url' => 'ul/li/a/@href',
+            'files' => (object) [
+                'name' => 'ul/li/a',
+                'url' => 'ul/li/a/@href',
+            ],
             'title' => 'span[@class="title"]',
         ])->fromHtml();
         $parseData = $m($html);
         $data = [];
         foreach ($parseData as $item) {
-            $data[$item['title']] = $item['url'];
+            print_r($item);
+            $data[$item['title']] = [
+                $item['files']
+            ];
         }
         return $data;
     }

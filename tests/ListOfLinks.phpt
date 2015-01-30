@@ -16,4 +16,6 @@ Assert::false($listOfLinks->getLanguagePages()['dewiki']['done']);
 
 // check files of concrete languages versions
 $currentPage = $listOfLinks->getFiles('cswiki')['All pages, current versions only.'];
-Assert::same('/cswiki/20150105/cswiki-20150105-pages-meta-current.xml.bz2', $currentPage);
+Assert::same('/cswiki/20150105/cswiki-20150105-pages-meta-current.xml.bz2', $currentPage[0]->url);
+$currentPage = $listOfLinks->getFiles('enwiki')['All pages, current versions only.'];
+Assert::same('/enwiki/20141208/enwiki-20141208-pages-meta-current1.xml-p000000010p000010000.bz2', $currentPage[0]->url);
