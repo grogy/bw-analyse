@@ -22,9 +22,17 @@ class ListOfLinks
     }
 
 
-    public function update()
+    /**
+     * Generate file with `wget` commands
+     * @param string $pathForGenerate path to save
+     */
+    public function generateDownloadFile($pathForGenerate)
     {
-        // @todo
+        $string = '';
+        foreach ($this->getFiles('cswiki')['All pages, current versions only.'] as $item) {
+            $string .= 'wget ' . $this->baseUrl . $item->url . ";\n";
+        }
+        file_put_contents($pathForGenerate, $string);
     }
 
 
@@ -80,7 +88,6 @@ class ListOfLinks
         $parseData = $m($html);
         $data = [];
         foreach ($parseData as $item) {
-            print_r($item);
             $data[$item['title']] = [
                 $item['files']
             ];

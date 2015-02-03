@@ -7,4 +7,4 @@ include_once __DIR__ . '/../bootstrap.php';
  */
 
 $listOfLinks = $container->getService('listOfLinks');
-$listOfLinks->update();
+$listOfLinks->generateDownloadFile(TEMP_DIR . '/files-for-download.sh');
