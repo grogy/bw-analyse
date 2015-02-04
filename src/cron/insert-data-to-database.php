@@ -7,4 +7,6 @@ include_once __DIR__ . '/../bootstrap.php';
  */
 
 $import = $container->getService('databaseImport');
-$import->import();
+foreach (\Nette\Utils\Finder::findFiles('cswiki-page-*')->from(TEMP_DIR . '/wiki/') as $file) {
+    $import->importPages($file);
+}

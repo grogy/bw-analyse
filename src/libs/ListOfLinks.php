@@ -29,8 +29,10 @@ class ListOfLinks
     public function generateDownloadFile($pathForGenerate)
     {
         $string = '';
+        $i = 0;
         foreach ($this->getFiles('cswiki')['All pages, current versions only.'] as $item) {
-            $string .= 'wget ' . $this->baseUrl . $item->url . ";\n";
+            $string .= 'wget ' . $this->baseUrl . $item->url . " -O cswiki-page-$i.bz2;\n";
+            $string .= "bunzip2 cswiki-page-$i.bz2;\n\n";
         }
         file_put_contents($pathForGenerate, $string);
     }
