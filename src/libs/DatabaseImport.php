@@ -66,7 +66,7 @@ class DatabaseImport
     public function getPortals($text)
     {
         $portals = [];
-        preg_match_all('/{{(Portály|Portal)\|(.+)}}/', $text, $matches);
+        preg_match_all('/{{(Portály|Portal)\|([^}]+)}}/', $text, $matches);
         foreach ($matches[2] as &$match) {
             $matchs = explode('|', $match);
             foreach ($matchs as $match) {

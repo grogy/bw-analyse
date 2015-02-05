@@ -96,3 +96,20 @@ $expected = [
     'Math',
 ];
 Assert::same($expected, $import->getPortals($text));
+
+$text = <<<'EOT'
+<div style="font-size:90%;">
+{{Portál:Literatura/Odkazy}}
+</div>
+|}
+|}
+
+<div style="text-align: justify; background: #fee; padding: 0px 10px; border: 1px solid #fbb">
+* Z&nbsp;článků týkajících se obsahu portálu můžete na tento portál odkázat šablonou <code><nowiki>{{Portály|Literatura}}</nowiki></code> umístěnou na konci článku těsně nad kategoriemi, resp. <code><nowiki>{{DEFAULTSORT:}}</nowiki></code>. V&nbsp;případě, že již článek odkazuje na jiný portál, přidejte odkaz abecedně do již vložené šablony <code><nowiki>{{Portály}}</nowiki></code>, viz [[Šablona:Portály|návod]].
+* Krátké články by měly být označeny šablonou {{Šablona|Pahýl}}
+</div>
+EOT;
+$expected = [
+    'Literatura',
+];
+Assert::same($expected, $import->getPortals($text));
