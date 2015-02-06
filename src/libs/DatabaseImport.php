@@ -32,9 +32,10 @@ class DatabaseImport
             $page = simplexml_import_dom($doc->importNode($reader->expand(), true));
             $reader->next('page');
             $title = (string) $page->title;
+            $text = (string) $page->revision->text;
             $categories = $this->getCategories($page->revision->text);
             $portals = $this->getPortals($page->revision->text);
-            $this->saveArticle($title, $categories, $portals);
+            $this->saveArticle($title, $text, $categories, $portals);
         }
     }
 
@@ -81,13 +82,14 @@ class DatabaseImport
      * Save article
      * @todo missing test
      * @param string $title title of article
+     * @param string $text text of article
      * @param array $categories categories of article
      * @param array $portals portals of article
      */
-    private function saveArticle($title, array $categories, array $portals)
+    private function saveArticle($title, $text, array $categories, array $portals)
     {
-        $query = 'INSERT INTO articles (name) VALUES (?)';
-        $this->database->query($query, $title);
+        $query = 'INSERT INTO articles (name, text) VALUES (?, ?)';
+        $this->database->query($query, $title, $text);
         $articleId = $this->database->getInsertId();
         foreach ($categories as $category) {
             $categoryId = $this->getCategoryId($category);
