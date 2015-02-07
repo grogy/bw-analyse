@@ -9,6 +9,7 @@ services:
     database: @nette.database.default
     listOfLinks: ListOfLinks(@database, %storageUrl%)
     databaseImport: DatabaseImport(@database)
+    databaseSelect: DatabaseSelect(@database)
 
 parameters:
     storageUrl: http://dumps.wikimedia.org/
