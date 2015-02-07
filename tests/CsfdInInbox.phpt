@@ -52,3 +52,10 @@ Assert::true($csfdInInbox->isMovie($articleText));
 Assert::false($csfdInInbox->existsCsfdInformationInInbox($articleText));
 Assert::true($csfdInInbox->existsCsfdInformationInHyperlinks($articleText));
 Assert::same('1552', $csfdInInbox->getCsfdId($articleText));
+
+
+$articleText = <<<'EOT'
+Content.. http://www.csfd.cz/film/10089-byl-jednou-jeden-kral/ content..
+EOT;
+Assert::true($csfdInInbox->existsCsfdInformationInHyperlinks($articleText));
+Assert::same('10089', $csfdInInbox->getCsfdId($articleText));
