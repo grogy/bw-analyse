@@ -7,6 +7,7 @@ include_once __DIR__ . '/../bootstrap.php';
  */
 
 $databaseSelect = $container->getService('databaseSelect');
+$proposalImprove = $container->getService('proposalImprove');
 $csfdInInbox = new CsfdInInbox();
 foreach ($databaseSelect->getArticleByPortal('Film') as $movie) {
     if (!$csfdInInbox->isMovie($movie['text'])) {
@@ -20,5 +21,7 @@ foreach ($databaseSelect->getArticleByPortal('Film') as $movie) {
     }
     $csfdID = $csfdInInbox->getCsfdId($movie['text']);
     $movieName = $movie['name'];
-    echo "You can insert CSFD ID to movie inbox. CSFD is $csfdID, movie name is '$movieName'.\n";
+    $notice = "At article '$movieName' in infobox missing ČSFD identifier of movie. ČSFD identifier is '$csfdID'.\n\n";
+    $notice .= "Please, insert to infobox ' | čsfd = $csfdID'.";
+    $proposalImprove->insertToDatabase($movie['id'], 1, $notice);
 }

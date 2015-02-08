@@ -10,6 +10,7 @@ services:
     listOfLinks: ListOfLinks(@database, %storageUrl%)
     databaseImport: DatabaseImport(@database)
     databaseSelect: DatabaseSelect(@database)
+    proposalImprove: ProposalImprove(@database)
 
 parameters:
     storageUrl: http://dumps.wikimedia.org/

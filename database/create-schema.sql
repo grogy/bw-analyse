@@ -39,3 +39,12 @@ CREATE TABLE article_categories (
 	FOREIGN KEY (article_id) REFERENCES articles(id),
 	FOREIGN KEY (category_id) REFERENCES categories(id)
 ) ENGINE=InnoDB;
+
+
+CREATE TABLE proposal_improve (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	article_id INT NOT NULL,
+	notice VARCHAR(255) NOT NULL,
+	type TINYINT NOT NULL,
+	FOREIGN KEY (article_id) REFERENCES articles (id)
+) ENGINE=InnoDB;
