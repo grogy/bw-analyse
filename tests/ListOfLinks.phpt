@@ -21,6 +21,7 @@ $currentPage = $listOfLinks->getFiles('enwiki')['All pages, current versions onl
 Assert::same('/enwiki/20141208/enwiki-20141208-pages-meta-current1.xml-p000000010p000010000.bz2', $currentPage[0]->url);
 
 // check generate file with wget commands
-$listOfLinks->generateDownloadFile(__DIR__ . '/output/out.sh');
-$fileData = file_get_contents(__DIR__ . '/output/out.sh');
+@mkdir(__DIR__ . '/output/');
+$listOfLinks->generateDownloadFile(__DIR__ . '/output/out');
+$fileData = file_get_contents(__DIR__ . '/output/out');
 Assert::matchFile(__DIR__ . '/official-output/list-of-links.sh', $fileData);
