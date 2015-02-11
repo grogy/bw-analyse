@@ -1,6 +1,6 @@
 # Bachelor work
 
-[![Build Status](https://magnum.travis-ci.com/grogy/bp-download.svg?token=DiWMNVQHkUeyUahskV9P&branch=dev)](https://magnum.travis-ci.com/grogy/bp-download)
+[![Build Status](https://travis-ci.org/grogy/bw-download.svg?branch=dev)](https://travis-ci.com/grogy/bw-download)
 
 ## Commands
 - `vagrant up`
