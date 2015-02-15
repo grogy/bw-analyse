@@ -88,7 +88,7 @@ class DatabaseImport
      */
     private function saveArticle($title, $text, array $categories, array $portals)
     {
-        $query = 'INSERT INTO articles (name, text) VALUES (?, ?)';
+        $query = 'INSERT INTO articles (name, text, language) VALUES (?, ?, "cs")';
         $this->database->query($query, $title, $text);
         $articleId = $this->database->getInsertId();
         foreach ($categories as $category) {

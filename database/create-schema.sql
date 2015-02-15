@@ -8,6 +8,7 @@ USE wikipedia;
 
 CREATE TABLE articles (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	language VARCHAR(2),
 	name VARCHAR(255),
 	text TEXT
 ) ENGINE=InnoDB;
