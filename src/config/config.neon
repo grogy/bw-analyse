@@ -15,6 +15,3 @@ services:
 
 parameters:
     storageUrl: http://dumps.wikimedia.org/
-    languages:
-        - cswiki
-        - enwiki
