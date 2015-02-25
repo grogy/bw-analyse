@@ -1,6 +1,8 @@
 /composer.lock
 
 /.vagrant/
+/doc/
+/dev-dependencies/
 /vendor/
 /temp/
 /tests/output/
