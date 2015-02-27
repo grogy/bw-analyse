@@ -1,6 +1,10 @@
 <?php
 
+namespace App\ImportFiles;
+
+use DOMDocument;
 use Nette\Database\Connection;
+use XMLReader;
 
 class DatabaseImport
 {

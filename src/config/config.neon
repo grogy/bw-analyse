@@ -7,7 +7,7 @@ nette:
 
 services:
     database: @nette.database.default
-    listOfLinks: ListOfLinks(@database, %storageUrl%)
+    listOfLinks: App\ListForDownload\ListOfLinks(@database, %storageUrl%)
     databaseImport: DatabaseImport(@database)
     databaseSelect: DatabaseSelect(@database)
     proposalImprove: ProposalImprove(@database)

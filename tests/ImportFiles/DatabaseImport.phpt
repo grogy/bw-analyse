@@ -1,12 +1,12 @@
 <?php
 
 use Tester\Assert;
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/libs/DatabaseImport.php';
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../src/libs/ImportFiles/DatabaseImport.php';
 Tester\Environment::setup();
 
 $databaseMock = \Mockery::mock('Nette\Database\Connection')->makePartial();
-$import = new DatabaseImport($databaseMock);
+$import = new App\ImportFiles\DatabaseImport($databaseMock);
 
 
 // check get categories

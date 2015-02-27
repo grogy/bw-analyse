@@ -1,6 +1,10 @@
 <?php
 
+namespace App\ListForDownload;
+
 use Atrox\Matcher;
+use DateTime;
+use DateTimeZone;
 use Nette\Database\Connection;
 
 class ListOfLinks
