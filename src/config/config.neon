@@ -1,14 +1,11 @@
-nette:
-    database:
-        default:
-            dsn: "mysql:host=127.0.0.1;dbname=wikipedia"
-            user: root
-            password: pass
+database:
+    default:
+        dsn: "mysql:host=127.0.0.1;dbname=wikipedia"
+        user: root
+        password: pass
 
 services:
-    database: @nette.database.default
-    listOfLinks: App\ListForDownload\ListOfLinks(@database, %storageUrl%)
-    databaseImport: DatabaseImport(@database)
+    database: @database.default
     databaseSelect: DatabaseSelect(@database)
     proposalImprove: ProposalImprove(@database)
     ForeignArticle: ForeignArticle(@database)
