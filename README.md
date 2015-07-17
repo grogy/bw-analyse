@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/grogy/bw-analyse.svg?branch=dev)](https://travis-ci.org/grogy/bw-analyse)
 
 ## Commands
-- `vagrant up`
-  - run development environments
 - `composer install`
   - install dependencies
 - `make test-unit`
@@ -16,3 +14,5 @@
 - `make generate-documentation`
   - generate documentation from source code
   - documentation is generated to `doc/index.html`
+- `sh dev/deploy.sh`
+  - run deploy to server
