@@ -21,7 +21,7 @@ foreach ($databaseSelect->getArticleByPortal('Film') as $movie) {
     }
     $csfdID = $csfdInInbox->getCsfdId($movie['text']);
     $movieName = $movie['name'];
-    $notice = "At article '$movieName' in infobox missing ČSFD identifier of movie. ČSFD identifier is '$csfdID'.\n\n";
-    $notice .= "Please, insert to infobox ' | čsfd = $csfdID'.";
+    $notice = "Uvnitř článku '$movieName' v infoboxu chybí ČSFD identifikátor filmu. ČSFD identifikátor je '$csfdID'.\n\n";
+    $notice .= "Prosím, vložte do infoboxu filmu tento údaj: ' | čsfd = $csfdID'.";
     $proposalImprove->insertToDatabase($movie['id'], 1, $notice);
 }
