@@ -10,7 +10,9 @@ function parseInfoBoxFromArticle($articleSource)
 
 function getInfoBoxName($infoBox)
 {
-	preg_match("/{{Infobox - ([^\n]+)/", $infoBox, $match);
+	if (!preg_match("/{{Infobox (?:- )([^\n]+)/", $infoBox, $match)) {
+		return '';
+	}
 	return $match[1];
 }
 

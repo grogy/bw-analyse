@@ -8,7 +8,8 @@ services:
     database: @database.default
     databaseSelect: DatabaseSelect(@database)
     proposalImprove: ProposalImprove(@database)
-    ForeignArticle: ForeignArticle(@database)
+    ForeignArticle: ForeignArticle()
+    englishPages: EnglishPages(@database)
 
 parameters:
     storageUrl: http://dumps.wikimedia.org/
