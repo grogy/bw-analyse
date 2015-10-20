@@ -20,6 +20,12 @@ class InfoBox
 	}
 
 
+	public function hasProperty($key)
+	{
+		return (isset($this->properties[$key]));
+	}
+
+
 	public function getProperty($key)
 	{
 		if (!isset($this->properties[$key])) {
