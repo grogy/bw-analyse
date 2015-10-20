@@ -6,6 +6,6 @@
 	},
 	"require-dev": {
 		"mockery/mockery": "0.9.4",
-		"nette/tester": "1.4.0"
+		"nette/tester": "1.6.0"
 	}
 }
