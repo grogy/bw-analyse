@@ -5,8 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/libs/ForeignArticle.php';
 Tester\Environment::setup();
 
-$databaseMock = \Mockery::mock('Nette\Database\Connection')->makePartial();
-$foreignArticle = new ForeignArticle($databaseMock);
+$foreignArticle = new ForeignArticle();
 
 
 

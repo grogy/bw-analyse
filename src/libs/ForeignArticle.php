@@ -6,18 +6,6 @@ use Nette\Database\Connection;
 class ForeignArticle
 {
     /**
-     * @var Connection
-     */
-    private $database;
-
-
-    public function __construct(Connection $database)
-    {
-        $this->database = $database;
-    }
-
-
-    /**
      * Read HTML for czech version of article
      * @param string $articleName
      * @return string
