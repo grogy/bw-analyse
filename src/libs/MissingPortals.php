@@ -43,7 +43,7 @@ class MissingPortals
                 foreach ($articles as $article) {
                     $articleCategories = $this->getArticleCategories($article['article_id']);
                     if ($this->passToPortal($countArticles, $categoriesPairs, $articleCategories)) {
-                        $message = 'Tento článek pravděpodobně patří do portálu ' . $portal['name'];
+                        $message = 'Tento článek pravděpodobně patří do portálu ' . $portal['name'] . '.';
                         try {
                             $this->proposalImprove->insertToDatabase($article['article_id'], self::PROPOSAL_TYPE, $message);
                         } catch (PDOException $e) {
