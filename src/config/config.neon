@@ -10,6 +10,7 @@ services:
     proposalImprove: ProposalImprove(@database)
     ForeignArticle: ForeignArticle()
     englishPages: EnglishPages(@database)
+    missingPortals: MissingPortals(@database)
 
 parameters:
     storageUrl: http://dumps.wikimedia.org/

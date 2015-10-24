@@ -30,4 +30,23 @@ class ProposalImprove
             VALUES (?, ?, ?)';
         $this->database->query($query, $articleId, $notice, $type);
     }
+
+
+
+    public function addToDatabase($articleId, $type, $notice)
+    {
+        $query = '
+                UPDATE proposal_improve SET notice = CONCAT(notice, " ", ?)
+                WHERE article_id = ? AND type = ?';
+        $this->database->query($query, $notice, $articleId, $type);
+    }
+
+
+    public function cleanAllProposal($proposalType)
+    {
+        $query = '
+            DELETE FROM proposal_improve
+            WHERE type = ?';
+        $this->database->query($query, $proposalType);
+    }
 }
