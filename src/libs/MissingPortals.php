@@ -32,6 +32,9 @@ class MissingPortals
         $this->proposalImprove->cleanAllProposal(self::PROPOSAL_TYPE);
         $portals = $this->getPortals();
         foreach ($portals as $portal) {
+            if ($portal['name'] == 'Filosofie') {
+                continue;
+            }
             $countArticles = $this->getCountArticlesWithPortal($portal['id']);
             $categoriesPairs = $this->getPairCategoryUsage($portal['id']);
             $i = 0;
@@ -41,6 +44,9 @@ class MissingPortals
                     break;
                 }
                 foreach ($articles as $article) {
+                    if ($this->hasPortal($article['article_id'], $portal['id'])) {
+                        continue;
+                    }
                     $articleCategories = $this->getArticleCategories($article['article_id']);
                     if ($this->passToPortal($countArticles, $categoriesPairs, $articleCategories)) {
                         $message = 'Tento článek pravděpodobně patří do portálu ' . $portal['name'] . '.';
@@ -54,6 +60,21 @@ class MissingPortals
             }
             unset($articles);
         }
+    }
+
+
+
+    private function hasPortal($articleId, $portalId)
+    {
+        $query = '
+            SELECT *
+            FROM article_portals
+            WHERE article_id = ? AND portal_id = ?';
+        $result = $this->database->query($query, $articleId, $portalId)->fetch();
+        if ($result) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -127,7 +148,7 @@ class MissingPortals
         foreach ($categoriesIntersect as $key => $val) {
             $sum += count($categoriesIntersect) * $categoriesPairs[$key] / $countArticles;
         }
-        if ($sum >= 1.0) {
+        if ($sum >= 0.5) {
             return true;
         }
         return false;

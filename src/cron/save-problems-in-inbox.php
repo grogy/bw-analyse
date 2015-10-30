@@ -47,12 +47,22 @@ $rules = [
 ];
 
 $englishPages->cleanAllProposal();
-foreach ($englishPages->getPairsPages() as $pair) {
-    $czechInfoBox = parseInfoBoxFromArticle($pair['czech']);
-    $englishInfoBox = parseInfoBoxFromArticle($pair['english']);
-    $differences = getListOfDifferences($czechInfoBox, $englishInfoBox, $rules);
-    if (count($differences) > 0) {
-        $notice = "Byl nalazen problém v infoboxu článku.\n\n" . join('. ', $differences);
-        $proposalImprove->insertToDatabase($pair['id'], 2, $notice);
+$i = 0;
+while (true) {
+    $pages = $englishPages->getPairsPages($i++);
+    if (empty($pages)) {
+        break;
+    }
+    foreach ($pages as $pair) {
+        if (!hasInfoBox($pair['czech'])) {
+            continue;
+        }
+        $czechInfoBox = parseInfoBoxFromArticle($pair['czech']);
+        $englishInfoBox = parseInfoBoxFromArticle($pair['english']);
+        $differences = getListOfDifferences($czechInfoBox, $englishInfoBox, $rules);
+        if (count($differences) > 0) {
+            $notice = "Byl nalazen problém v infoboxu článku.\n\n" . join('. ', $differences);
+            $proposalImprove->insertToDatabase($pair['id'], 2, $notice);
+        }
     }
 }

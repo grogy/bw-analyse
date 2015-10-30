@@ -12,13 +12,13 @@ Tester\Environment::setup();
 $articleSource = <<<'EOT'
 {{Infobox - film
  | šířka =
- | film = Harry Potter a Kámen mudrců
+ | film =Harry Potter a Kámen mudrců
  | obrázek =
  | popisek =
  | originál = Harry Potter and the Philosopher's Stone
  | žánr = [[fantasy]]
  | režie = [[Chris Columbus]]
- | produkce = [[David Heyman]]
+|produkce=    [[David Heyman]]
  | předchozí =
  | imdb = 0241527
 }}
@@ -37,4 +37,6 @@ $actualInfoBox = parseInfoBoxFromArticle($articleSource);
 Assert::equal('film', $actualInfoBox->getName());
 Assert::equal('Harry Potter a Kámen mudrců', $actualInfoBox->getProperty('film'));
 Assert::equal('Harry Potter and the Philosopher\'s Stone', $actualInfoBox->getProperty('originál'));
+Assert::equal('[[David Heyman]]', $actualInfoBox->getProperty('produkce'));
 Assert::equal('0241527', $actualInfoBox->getProperty('imdb'));
+Assert::true(hasInfoBox($articleSource));
