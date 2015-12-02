@@ -5,8 +5,8 @@ use Nette\Database\Connection;
 class MissingPortals
 {
     const PROPOSAL_TYPE = 3;
-
-    const MAXIMUM_COUNT_ARTICLES = 10000;
+    const MAXIMUM_COUNT_ARTICLES = 100;
+    const MAGIC_CONSTANT = 0.1;
 
     /**
      * @var Connection
@@ -18,6 +18,8 @@ class MissingPortals
      */
     private $proposalImprove;
 
+    private $sumOfArticle;
+
 
     public function __construct(Connection $database, ProposalImprove $proposalImprove)
     {
@@ -27,39 +29,81 @@ class MissingPortals
 
 
 
+    private function getMagicNumber($article, $portal, $category)
+    {
+        return 1;
+        $query = '
+            SELECT COUNT(*) as c
+            FROM articles a
+                LEFT JOIN article_categories ac ON a.id = ac.article_id
+                LEFT JOIN article_portals ap ON a.id = ap.article_id
+            WHERE a.id = ? AND ap.portal_id = ? AND ac.category_id = ?';
+        $result = $this->database->query($query, $article['id'], $portal['id'], $category['id'])->fetch();
+        return $result['c'] / $this->sumOfArticle;
+    }
+
+
+
+    private function checkArticle($article, $portals, $categories)
+    {
+        $articleCategories = $this->getCategoriesForArticle($article);
+        foreach ($portals as $portal) {
+            $pSumHasCategory = 0;
+            $pSumHaveNotCategory = 0;
+            foreach ($categories as $category) {
+                $val = $this->getMagicNumber($article, $portal, $category);
+                if (in_array($category, $articleCategories)) {
+                    $pSumHasCategory += $val;
+                }
+                $pSumHaveNotCategory += $val;
+            }
+
+            if ($pSumHaveNotCategory == 0) {
+                continue;
+            }
+            $ratio = $pSumHasCategory / $pSumHaveNotCategory;
+            echo 'article = ' . $article['id'] . ', portal = ' . $portal['id'] . ' -> ' . $ratio . PHP_EOL;
+            if ($ratio > self::MAGIC_CONSTANT) {
+                $message = 'Tento článek pravděpodobně patří do portálu ' . $portal['name'] . '.';
+                try {
+                    $this->proposalImprove->insertToDatabase($article['article_id'], self::PROPOSAL_TYPE, $message);
+                } catch (PDOException $e) {
+                    $this->proposalImprove->addToDatabase($article['article_id'], self::PROPOSAL_TYPE, $message);
+                }
+            }
+        }
+    }
+
+
+
     public function process()
     {
         $this->proposalImprove->cleanAllProposal(self::PROPOSAL_TYPE);
+        $this->sumOfArticle = $this->getCountOfArticles();
         $portals = $this->getPortals();
-        foreach ($portals as $portal) {
-            if ($portal['name'] == 'Filosofie') {
-                continue;
+        $categories = $this->getCategories();
+
+        $i = 0;
+        while (true) {
+            $articles = $this->getArticles(self::MAXIMUM_COUNT_ARTICLES * $i++);
+            if (empty($articles)) {
+                break;
             }
-            $countArticles = $this->getCountArticlesWithPortal($portal['id']);
-            $categoriesPairs = $this->getPairCategoryUsage($portal['id']);
-            $i = 0;
-            while (true) {
-                $articles = $this->getArticleIdsOutOfPortal(self::MAXIMUM_COUNT_ARTICLES * $i++, $portal['id']);
-                if (empty($articles)) {
-                    break;
-                }
-                foreach ($articles as $article) {
-                    if ($this->hasPortal($article['article_id'], $portal['id'])) {
-                        continue;
-                    }
-                    $articleCategories = $this->getArticleCategories($article['article_id']);
-                    if ($this->passToPortal($countArticles, $categoriesPairs, $articleCategories)) {
-                        $message = 'Tento článek pravděpodobně patří do portálu ' . $portal['name'] . '.';
-                        try {
-                            $this->proposalImprove->insertToDatabase($article['article_id'], self::PROPOSAL_TYPE, $message);
-                        } catch (PDOException $e) {
-                            $this->proposalImprove->addToDatabase($article['article_id'], self::PROPOSAL_TYPE, $message);
-                        }
-                    }
-                }
+            foreach ($articles as $article) {
+                $this->checkArticle($article, $portals, $categories);
             }
-            unset($articles);
         }
+    }
+
+
+
+    private function getCountOfArticles()
+    {
+        $query = '
+            SELECT COUNT(*) as c
+            FROM articles a';
+        $result = $this->database->query($query)->fetch();
+        return $result['c'];
     }
 
 
@@ -86,6 +130,41 @@ class MissingPortals
             FROM portals';
         $portals = $this->database->query($query)->fetchAll();
         return $portals;
+    }
+
+
+
+    private function getCategories()
+    {
+        $query = '
+            SELECT *
+            FROM categories';
+        $categories = $this->database->query($query)->fetchAll();
+        return $categories;
+    }
+
+
+
+    private function getCategoriesForArticle($article)
+    {
+        $query = '
+            SELECT c.*
+            FROM categories c RIGHT JOIN article_categories ac ON c.id = ac.category_id
+            WHERE ac.article_id = ?';
+        $categories = $this->database->query($query, $article['id'])->fetchAll();
+        return $categories;
+    }
+
+
+
+    private function getArticles($offset)
+    {
+        $query = '
+            SELECT id
+            FROM articles
+            LIMIT ?, ?';
+        $articles = $this->database->query($query, $offset, self::MAXIMUM_COUNT_ARTICLES)->fetchAll();
+        return $articles;
     }
 
 
@@ -148,7 +227,7 @@ class MissingPortals
         foreach ($categoriesIntersect as $key => $val) {
             $sum += count($categoriesIntersect) * $categoriesPairs[$key] / $countArticles;
         }
-        if ($sum >= 0.5) {
+        if ($sum >= self::MAGIC_CONSTANT) {
             return true;
         }
         return false;
